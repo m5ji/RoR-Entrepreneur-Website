@@ -1,0 +1,38 @@
+<h1>Models</h1>
+
+<%= link_to "Upload", new_welcome_path %>
+
+<body>
+  <%= yield %>
+</body>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>url</th>
+    <th>Description</th>
+    <th>Price</th>
+    <th>Status</th>
+    <th>Purchase</th>
+  </tr>
+ 
+  <% @files.each do |file| %>
+    <tr>
+      <td><%= file.Name %></td>
+      <td><%= file.url %></td>
+      <td><%= file.Description %></td>
+      <td><%= file.Price %></td>
+      <td><%= file.Status %></td>
+      <td>
+	<form action=<%= welcome_path(file) %> method="PUT" class="button_to">
+      	<script  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+	  data-name=<%= file.Name %>
+          data-amount=<%= file.Price * 100 %>
+          data-locale="auto"></script>
+	</form>
+      </td>
+      <td><%= button_to "Delete", welcome_path(file), :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
